@@ -59,6 +59,28 @@ resource "helm_release" "cert-manager" {
   ]
 }
 
+resource "helm_release" "acme-cluster-issuer" {
+  name       = "acme-cluster-issuer"
+  repository = "https://deanrock.github.io/acme-cluster-issuer-helm-chart/"
+  namespace  = kubernetes_namespace.ingress.metadata[0].name
+  chart      = "acme-cluster-issuer"
+  version    = "0.1.3"
+
+  depends_on = [
+    digitalocean_kubernetes_cluster.cluster
+  ]
+
+  values = [
+    yamlencode(
+      {
+        acme = {
+          email = var.letsencrypt_email
+        }
+      }
+    )
+  ]
+}
+
 resource "helm_release" "whoami" {
   name      = "whoami"
   namespace = "default"

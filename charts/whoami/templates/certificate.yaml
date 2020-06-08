@@ -10,5 +10,5 @@ spec:
   dnsNames:
     - {{ .Values.domain }}
   issuerRef:
-    name: {{ include "whoami.fullname" . }}-letsencrypt
+    name: acme-cluster-issuer
     kind: ClusterIssuer
