@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: {{ include "whoami.fullname" . }}-cert
+  labels:
+    {{- include "whoami.labels" . | nindent 4 }}
+spec:
+  commonName: {{ .Values.domain }}
+  secretName: {{ include "whoami.fullname" . }}-whoami-cert
+  dnsNames:
+    - {{ .Values.domain }}
+  issuerRef:
+    name: {{ include "whoami.fullname" . }}-letsencrypt
+    kind: ClusterIssuer
