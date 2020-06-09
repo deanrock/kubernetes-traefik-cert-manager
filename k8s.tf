@@ -67,7 +67,7 @@ resource "helm_release" "acme-cluster-issuer" {
   version    = "0.1.3"
 
   depends_on = [
-    digitalocean_kubernetes_cluster.cluster
+    helm_release.cert-manager
   ]
 
   values = [
@@ -87,7 +87,7 @@ resource "helm_release" "whoami" {
   chart     = "./charts/whoami"
 
   depends_on = [
-    digitalocean_kubernetes_cluster.cluster
+    helm_release.acme-cluster-issuer
   ]
 
   values = [
